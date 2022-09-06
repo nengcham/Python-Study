@@ -8,6 +8,9 @@
         {% endif %}
     {% endif %}
     <h1>Blog
+        {% if search_info %}
+            <small class="text-muted">{{ search_info }}</small>
+        {% endif %}
         {% if category %}
             <span class="badge badge-secondary">{{ category }}</span>
         {% endif %}
@@ -58,13 +61,28 @@
     {% else %}
         <h3>아직 게시물이 없습니다</h3>
     {% endif %}
+    {% if is_paginated %}
     <!-- Pagination -->
     <ul class="pagination justify-content-center mb-4">
-        <li class="page-item">
-            <a class="page-link" href="#">&larr; 이전</a>
-        </li>
+        {% if page_obj.has_previous %}
+            <li class="page-item">
+                <a class="page-link" href="?page={{ page_obj.previous_page_number }}">&larr; Newer</a>
+            </li>
+        {% else %}
         <li class="page-item disabled">
-            <a class="page-link" href="#">다음 &rarr;</a>
+            <a class="page-link" href="#">&larr; Newer</a>
         </li>
+        {% endif %}
+
+        {% if page_obj.has_next %}
+            <li class="page-item">
+                <a class="page-link" href="?page={{ page_obj.next_page_number }}">Older &rarr;</a>
+            </li>
+        {% else %}
+        <li class="page-item disabled">
+            <a class="page-link" href="#">Older &rarr;</a>
+        </li>
+        {% endif %}
     </ul>
+    {% endif %}
 {% endblock %}
